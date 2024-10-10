@@ -1,0 +1,40 @@
+version: '3.8'
+services:
+  jmeter-master:
+    image: sivahari_jmeter:latest
+    container_name: jmeter-master
+    volumes:
+      - ./tests:/tests  # Ensure this is correct
+      - ./results:/results
+      - ./logs:/logs
+    networks:
+      jmeter-net:
+        ipv4_address: 172.31.95.2  # Assigning static IP to the master
+    environment:
+      - JVM_ARGS=-Xms512m -Xmx1024m
+    entrypoint: >
+      sh -c "jmeter -n -t /tests/S01_SimpleExample.jmx -l /results/results.jtl -R172.31.95.3,172.31.95.4 -Dserver.rmi.ssl.disable=true"
+
+  jmeter-slave-1:
+    image: sivahari_jmeter:latest
+    container_name: jmeter-slave-1
+    networks:
+      jmeter-net:
+        ipv4_address: 172.31.95.3  # Assigning static IP to the first slave
+    environment:
+      - JVM_ARGS=-Xms512m -Xmx1024m
+    entrypoint: jmeter-server -Dserver.rmi.ssl.disable=true
+
+  jmeter-slave-2:
+    image: sivahari_jmeter:latest
+    container_name: jmeter-slave-2
+    networks:
+      jmeter-net:
+        ipv4_address: 172.31.95.4  # Assigning static IP to the second slave
+    environment:
+      - JVM_ARGS=-Xms512m -Xmx1024m
+    entrypoint: jmeter-server -Dserver.rmi.ssl.disable=true
+
+networks:
+  jmeter-net:
+    external: true  # Use the existing network created earlier
