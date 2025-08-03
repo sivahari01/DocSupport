@@ -1,0 +1,34 @@
+💡 Little’s Law – Pacing Formula
+
+
+
+👥 Number of Users = 🔁 Iterations per Second × (⏱️ E2E Response Time + 🧠 Total Think Time + ⏳ Pacing Delay)
+
+
+🔄 TPM (Transactions per Minute) = 🔁 Iterations per Second × 60
+
+👥 Number of Users – Total concurrent virtual users
+
+🔁 Iterations per Second – Load (TPS or IPS)
+
+⏱️ E2E Response Time – How long one iteration takes
+
+🧠 Think Time – Pause time between transactions
+
+⏳ Pacing Delay – Delay between iterations
+
+
+
+Let’s say:
+
+🎯 Target TPM = 600
+
+⏱️ Response Time = 3s
+
+🧠 Think Time = 2s
+
+⏳ Pacing Delay = 5s
+
+👉 TPS = 600 ÷ 60 = 10 TPS
+
+👥 Users = 10 × (3 + 2 + 5) = 10 × 10 = 100 Users
