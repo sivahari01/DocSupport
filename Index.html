@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Number Encryptor</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background: white;
+      padding: 20px 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 350px;
+    }
+    h1 {
+      font-size: 20px;
+      margin-bottom: 15px;
+      color: #333;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    button {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #45a049;
+    }
+    .output {
+      margin-top: 15px;
+      font-weight: bold;
+      word-break: break-all;
+      color: #2c3e50;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Encrypt Your Number</h1>
+    <input type="text" id="numInput" placeholder="Enter a number">
+    <button onclick="doEncrypt()">Encrypt</button>
+    <div class="output" id="result"></div>
+  </div>
+
+  <script>
+    function randChars(n = 5) {
+      const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      let out = "";
+      for (let i = 0; i < n; i++) out += chars[Math.floor(Math.random() * chars.length)];
+      return out;
+    }
+
+    function encodeSalted64(numStr, saltLen = 5) {
+      const core = btoa(numStr); // Base64
+      return randChars(saltLen) + core + randChars(saltLen);
+    }
+
+    function decodeSalted64(encStr, saltLen = 5) {
+      const core = encStr.slice(saltLen, -saltLen);
+      return atob(core);
+    }
+
+    function doEncrypt() {
+      const num = document.getElementById("numInput").value.trim();
+      if (!num) {
+        document.getElementById("result").textContent = "⚠️ Please enter a number";
+        return;
+      }
+      const encrypted = encodeSalted64(num);
+      document.getElementById("result").textContent = encrypted;
+    }
+  </script>
+</body>
+</html>
