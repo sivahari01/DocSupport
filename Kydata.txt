@@ -1,0 +1,21 @@
+Looking at your data, you want to find which MDN records from Column C (Kafka MDN - 10,776 records) are NOT present in Column B (MDN - 11,022 records).
+Here's the formula to identify missing records:
+Add this formula in Column D (starting at D2):
+Code
+What this does:
+Checks each value in column C against all values in column B
+Returns "NOT FOUND" if the record exists in C but is missing from B
+Returns "MATCH" if it exists in both
+Returns blank if the cell is empty
+Alternative - To Extract Only Missing Records:
+If you want to see only the unmatched records, use this in a new column (E):
+Code
+This will show only the Kafka MDN values that don't exist in the main MDN column.
+Quick Steps:
+Click on cell D2
+Paste the first formula
+Drag down to row 10777 (or use Ctrl+D after selecting the range)
+Filter or sort by "NOT FOUND" to see all missing records
+Would you like me to help you analyze the results or create a summary of the discrepancies?
+=IFERROR(IF(COUNTIF($B$2:$B$11022,C2)=0,"NOT FOUND","MATCH"),""​)
+=IFERROR(IF(COUNTIF($B$2:$B$11022,C2)=0,"NOT FOUND","MATCH"),""​)
